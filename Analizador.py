@@ -1,4 +1,4 @@
-from curses.ascii import isalpha
+from pyparsing import alphanums
 from tkinter.filedialog import Open
 from Tokens import *
 from Errores import *
@@ -23,7 +23,7 @@ class Analizando:
         token = Token()
         error = Error()
 
-        Operaciones = []
+        self.Operaciones = []
 
         Lista = []
 
@@ -336,10 +336,175 @@ class Analizando:
                 else: 
 
                     error.Crear(i,linea,columna) #lista de errores
-
+            
             elif estado == 9:
 
                 if i.isalpha():
+
+                    palabra += i #agregar las letras a la palabra
+                
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+                
+                else:
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+                if palabra.lower().lstrip().rstrip() == 'numero':
+
+                    Tipo = 'PALABRA RESERVADA'
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+
+                    estado = 10 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+
+            elif estado == 10:
+
+                if i == '>':
+
+                    Tipo = 'MAYOR QUE' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 11 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+            
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+
+                else: 
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+            elif estado == 11:
+
+                if i.isalnum() or i == '.':
+
+                    palabra += i #agregar las letras a la palabra
+
+                elif i == '<':
+
+                    Tipo = 'NUMERO' #tipo de token
+                    Lista.append(palabra)
+                    token.Contruccion(Tipo,palabra,linea,columna-1) #agregar numero
+                    palabra = '' #limpiar contenido de palabra
+
+                    Tipo = 'MENOR QUE' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 13 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+                
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+                
+                else:
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+            elif estado == 13:
+
+                if i == '/':
+                    
+                    Tipo = 'DIAGONAL' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 14 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+            
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+
+                else: 
+
+                    error.Crear(i,linea,columna) #lista de errores
+            
+            elif estado == 14:
+
+                if i.isalpha():
+
+                    palabra += i #agregar las letras a la palabra
+                
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+                
+                else:
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+                if palabra.lower().lstrip().rstrip() == 'numero':
+
+                    Tipo = 'PALABRA RESERVADA'
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+
+                    estado = 15 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+
+            elif estado == 15:
+
+                if i == '>':
+
+                    Tipo = 'MAYOR QUE' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 16 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+            
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+
+                else: 
+
+                    error.Crear(i,linea,columna) #lista de errores
+            
+            elif estado == 16:
+
+                if i == '<':
+
+                    Tipo = 'MENOR QUE' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 17 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+            
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+
+                else: 
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+            elif estado == 17:
+
+                if i == '/':
+                    
+                    Tipo = 'DIAGONAL' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 18 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+                
+                elif i.isalpha():
 
                     palabra += i #agregar las letras a la palabra
                 
@@ -366,42 +531,12 @@ class Analizando:
 
                     token.Contruccion(Tipo,palabra,linea,columna)
 
-                    estado = 13 #cambio de estado
+                    estado = 5 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
 
-            elif estado == 10:
+            elif estado == 18:
 
-                if i == '>':
-                    
-                    Tipo = 'MAYOR QUE' #tipo de token
-                    palabra = i #contenido leido
-
-                    token.Contruccion(Tipo,palabra,linea,columna)
- 
-                    estado = 11 #cambio de estado
-                    palabra = '' #limpiar contenido de palabra
-
-                elif i == '<':
-                    
-                    Tipo = 'MENOR QUE' #tipo de token
-                    palabra = i #contenido leido
-
-                    token.Contruccion(Tipo,palabra,linea,columna)
- 
-                    estado = 12 #cambio de estado
-                    palabra = '' #limpiar contenido de palabra
-            
-                elif i == ' ' or i == '\n' or i == '\t':
-
-                    continue #si vienen espacio 
-
-                else: 
-
-                    error.Crear(i,linea,columna) #lista de errores
-            
-            elif estado == 11:
-
-                if i.isalnum() or i == '.':
+                if i.isalpha():
 
                     palabra += i #agregar las letras a la palabra
                 
@@ -413,50 +548,28 @@ class Analizando:
 
                     error.Crear(i,linea,columna) #lista de errores
 
-                if i == '<':
+                if palabra.lower().lstrip().rstrip() == 'operacion':
 
-                    Tipo = 'NUMERO'
-
-                    token.Contruccion(Tipo,palabra,linea,columna-1)
-
-                    estado = 12 #cambio de estado
-                    palabra = '' #limpiar contenido de palabra
-
-                    Tipo = 'MENOR QUE'
-
-                    token.Contruccion(Tipo,i,linea,columna)
-            
-            elif estado == 12:
-
-                if i == '/':
-                    
-                    Tipo = 'DIAGONAL' #tipo de token
-                    palabra = i #contenido leido
+                    Tipo = 'PALABRA RESERVADA'
 
                     token.Contruccion(Tipo,palabra,linea,columna)
- 
-                    estado = 9 #cambio de estado
+
+                    estado = 19 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
-            
-                elif i == ' ' or i == '\n' or i == '\t':
 
-                    continue #si vienen espacio 
-
-                else: 
-
-                    error.Crear(i,linea,columna) #lista de errores
+                    self.Operaciones.append(Lista)
+                    Lista = []
             
-            
-            elif estado == 13:
+            elif estado == 19:
 
                 if i == '>':
-                    
-                    Tipo = 'MAYOR QUE' #tipo de token
+
+                    Tipo = 'MENOR QUE' #tipo de token
                     palabra = i #contenido leido
 
                     token.Contruccion(Tipo,palabra,linea,columna)
  
-                    estado = 14 #cambio de estado
+                    estado = 20 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
             
                 elif i == ' ' or i == '\n' or i == '\t':
@@ -466,8 +579,8 @@ class Analizando:
                 else: 
 
                     error.Crear(i,linea,columna) #lista de errores
-            
-            elif estado == 14:
+
+            elif estado == 20:
 
                 if i == '<':
 
@@ -476,7 +589,86 @@ class Analizando:
 
                     token.Contruccion(Tipo,palabra,linea,columna)
  
-                    estado = 15 #cambio de estado
+                    estado = 21 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+            
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+
+                else: 
+
+                    error.Crear(i,linea,columna) #lista de errores
+                    
+            
+            elif estado == 21:
+
+                if i.isalpha():
+
+                    palabra += i #agregar las letras a la palabra
+
+                elif i == '/':
+                    
+                    Tipo = 'DIAGONAL' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 22 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+                
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+                
+                else:
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+                if palabra.lower().lstrip().rstrip() == 'operacion':
+
+                    Tipo = 'PALABRA RESERVADA'
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+
+                    estado = 5 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+
+            
+            elif estado == 22:
+
+                if i.isalpha():
+
+                    palabra += i #agregar las letras a la palabra
+                
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+                
+                else:
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+                if palabra.lower().lstrip().rstrip() == 'operacion':
+
+                    Tipo = 'PALABRA RESERVADA'
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+
+                    estado = 23 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+
+            
+            elif estado == 23:
+
+                if i == '>':
+
+                    Tipo = 'MENOR QUE' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 24 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
             
                 elif i == ' ' or i == '\n' or i == '\t':
@@ -487,16 +679,16 @@ class Analizando:
 
                     error.Crear(i,linea,columna) #lista de errores
 
-            elif estado == 15:
+            elif estado == 24:
 
-                if i == '/':
-                    
-                    Tipo = 'DIAGONAL' #tipo de token
+                if i == '<':
+
+                    Tipo = 'MENOR QUE' #tipo de token
                     palabra = i #contenido leido
 
                     token.Contruccion(Tipo,palabra,linea,columna)
  
-                    estado = 16 #cambio de estado
+                    estado = 25 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
             
                 elif i == ' ' or i == '\n' or i == '\t':
@@ -505,9 +697,43 @@ class Analizando:
 
                 else: 
 
-                    error.Crear(i,linea,columna) #lista de errores      
+                    error.Crear(i,linea,columna) #lista de errores
+
             
-            elif estado == 16:
+            elif estado == 25:
+
+                if i.isalpha():
+
+                    palabra += i #agregar las letras a la palabra
+                
+                elif i == '/':
+                    
+                    Tipo = 'DIAGONAL' #tipo de token
+                    palabra = i #contenido leido
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+ 
+                    estado = 26 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+                
+                elif i == ' ' or i == '\n' or i == '\t':
+
+                    continue #si vienen espacio 
+                
+                else:
+
+                    error.Crear(i,linea,columna) #lista de errores
+
+                if palabra.lower().lstrip().rstrip() == 'operacion':
+
+                    Tipo = 'PALABRA RESERVADA'
+
+                    token.Contruccion(Tipo,palabra,linea,columna)
+
+                    estado = 5 #cambio de estado
+                    palabra = '' #limpiar contenido de palabra
+
+            elif estado == 26:
 
                 if i.isalpha():
 
@@ -527,19 +753,19 @@ class Analizando:
 
                     token.Contruccion(Tipo,palabra,linea,columna)
 
-                    estado = 17 #cambio de estado
+                    estado = 27 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
-            
-            elif estado == 17:
+
+            elif estado == 27:
 
                 if i == '>':
-                    
-                    Tipo = 'MAYOR QUE' #tipo de token
+
+                    Tipo = 'MENOR QUE' #tipo de token
                     palabra = i #contenido leido
 
                     token.Contruccion(Tipo,palabra,linea,columna)
  
-                    estado = 18 #cambio de estado
+                    estado = 28 #cambio de estado
                     palabra = '' #limpiar contenido de palabra
             
                 elif i == ' ' or i == '\n' or i == '\t':
@@ -549,6 +775,44 @@ class Analizando:
                 else: 
 
                     error.Crear(i,linea,columna) #lista de errores
+
+            
+            
+
+            
+
+
+
+
+
+         
+
+        print()
+        print('TOKEN')
+        token.Mostrar_token()
+        print()
+        print('errores')
+        error.Mostrar_error()
+        print()
+
+
+        
+
+    def Mostrar(self):
+
+        for i in self.Operaciones:
+
+            for j in i:
+
+                print(j, end='')
+
+            print()
+        print('fin')  
+
+        print()
+
+        
+        
 
                 
             

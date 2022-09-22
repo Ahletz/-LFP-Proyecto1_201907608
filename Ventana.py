@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 from Edicion import *
+from Analizador import *
 
 class Ventana:
 
@@ -47,7 +48,7 @@ class Ventana:
         #BOTONES PARA MANIPULAR ARCHIVO
         boton1 = Button(text='Abrir Archivo',command=self.AbrirArchivo,height=2,width=15,background='DodgerBlue2').place(x=100,y=150)
         boton2 = Button(text='Editar',height=2,width=15,background='DodgerBlue2',command=self.Edicion).place(x=100,y=200)
-        boton3 = Button(text='Analizar',height=2,width=15,background='DodgerBlue2').place(x=100,y=250)
+        boton3 = Button(text='Analizar',height=2,width=15,background='DodgerBlue2', command= self.Analizar).place(x=100,y=250)
         boton4 = Button(text='Errores',height=2,width=15,background='DodgerBlue2').place(x=100,y=300)
         boton5 = Button(text='Salir',command=self.ventana.destroy,height=2,width=15,background='DodgerBlue2').place(x=100,y=350)
         
@@ -74,5 +75,14 @@ class Ventana:
 
         Edicion = Ventana_Edicion()
         Edicion.Ventana_edicion(self.direccion)
+
+    def Analizar(self):
+
+        Analisis = Analizando()
+
+        Analisis.Analizar(self.direccion)
+        Analisis.Mostrar()
+
+
 
     

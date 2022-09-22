@@ -16,3 +16,9 @@ class Error:
         error = a1 + contenido + a2 + str(linea) + a3 + str(columna) #contrucccion de un error
 
         self.lista.append(error) #agregar error a la lista
+
+    def Mostrar_error(self):
+
+        for i in self.lista:
+
+            print(i)

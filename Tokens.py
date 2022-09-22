@@ -16,3 +16,9 @@ class Token:
         token = a1 + tipo + a2 + contenido + a3 + str(linea) + a4 + str(columna) #contruccion del tocken 
 
         self.lista.append(token)
+
+    def Mostrar_token(self):
+
+        for i in self.lista:
+
+            print(i)
