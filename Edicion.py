@@ -37,14 +37,14 @@ class Ventana_Edicion:
     def Guardar(self):
 
         texto = self.area.get("1.0","end")
-        archivo = open(self.direccion, 'w')
+        archivo = open(self.direccion, 'w', encoding='utf-8')
         archivo.write(texto)
         archivo.close()
 
     def Guardar_como(self):
 
         texto = self.area.get("1.0","end")
-        archivo = open('Nuevo_Archivo.form', 'w')
+        archivo = open('Nuevo_Archivo.form', 'w', encoding='utf-8')
         archivo.write(texto)
         archivo.close()
      
