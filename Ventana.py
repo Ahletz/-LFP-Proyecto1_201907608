@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 from Edicion import *
 from Analizador import *
+import webbrowser
 
 class Ventana:
 
@@ -49,7 +50,7 @@ class Ventana:
         boton1 = Button(text='Abrir Archivo',command=self.AbrirArchivo,height=2,width=15,background='DodgerBlue2').place(x=100,y=150)
         boton2 = Button(text='Editar',height=2,width=15,background='DodgerBlue2',command=self.Edicion).place(x=100,y=200)
         boton3 = Button(text='Analizar',height=2,width=15,background='DodgerBlue2', command= self.Analizar).place(x=100,y=250)
-        boton4 = Button(text='Errores',height=2,width=15,background='DodgerBlue2').place(x=100,y=300)
+        boton4 = Button(text='Reportes',height=2,width=15,background='DodgerBlue2', command=self.Mostrar_Reportes).place(x=100,y=300)
         boton5 = Button(text='Salir',command=self.ventana.destroy,height=2,width=15,background='DodgerBlue2').place(x=100,y=350)
         
         #BOTONES PARA MANUALES
@@ -83,6 +84,9 @@ class Ventana:
         Analisis.Analizar(self.direccion)
         Analisis.Mostrar()
 
+    def Mostrar_Reportes(self):
 
+        webbrowser.open_new_tab('REPORTE ERRORES.html')
+        webbrowser.open_new_tab('REPORTE TOKENS.html')
 
     

@@ -1633,6 +1633,10 @@ class Analizando:
 
                     error.Crear(i,linea,columna) #lista de errores
 
+        
+        token.Reporte_Tokens()
+        error.Reporte_Errores()
+
 
 
 
@@ -1651,11 +1655,9 @@ class Analizando:
 
         for i in self.Operaciones:
 
-            for j in i:
+                print(i)
 
-                print(j, end='')
-
-            print()
+        print()
         print('fin')  
 
         print()
@@ -1676,6 +1678,11 @@ class Analizando:
             print(l)
 
         print()
+
+
+   
+
+        
 
         
         
