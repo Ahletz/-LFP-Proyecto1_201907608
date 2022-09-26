@@ -2,7 +2,7 @@ from pyparsing import alphanums
 from tkinter.filedialog import Open
 from Tokens import *
 from Errores import *
-
+from Respuesta import *
 class Analizando:
 
 
@@ -1648,6 +1648,8 @@ class Analizando:
         error.Mostrar_error()
         print()
 
+        respuesta = Html_r()
+        respuesta.Crear(self.Funciones, self.Operaciones,self.Texto, self.Estilos)
 
         
 

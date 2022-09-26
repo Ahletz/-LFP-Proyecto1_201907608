@@ -54,8 +54,8 @@ class Ventana:
         boton5 = Button(text='Salir',command=self.ventana.destroy,height=2,width=15,background='DodgerBlue2').place(x=100,y=350)
         
         #BOTONES PARA MANUALES
-        boton6 = Button(text='Manual de Usuario',height=2,width=15,background='DarkOliveGreen1').place(x=400,y=200)
-        boton7 = Button(text='Manual Técnico',height=2,width=15,background='DarkOliveGreen1').place(x=400,y=250)
+        boton6 = Button(text='Manual de Usuario',height=2,width=15,background='DarkOliveGreen1',command=self.Manual_usuario).place(x=400,y=200)
+        boton7 = Button(text='Manual Técnico',height=2,width=15,background='DarkOliveGreen1',command=self.Manual_tecnico).place(x=400,y=250)
         boton8 = Button(text='Ayuda',height=2,width=15,background='DarkOliveGreen1',command=self.Informacion).place(x=400,y=300)
 
 
@@ -88,5 +88,13 @@ class Ventana:
 
         webbrowser.open_new_tab('REPORTE ERRORES.html')
         webbrowser.open_new_tab('REPORTE TOKENS.html')
+
+    def Manual_usuario(self):
+        webbrowser.open_new_tab('MANUAL USUARIO.pdf')
+
+    def Manual_tecnico(self):
+        webbrowser.open_new_tab('MANUAL TECNICO.pdf')
+
+
 
     

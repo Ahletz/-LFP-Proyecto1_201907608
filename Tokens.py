@@ -22,14 +22,14 @@ class Token:
 
         #inicio de thml
          
-        inicio = '<!doctype html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"><title>TOKENS</title></head><body><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script><h1>Lista de Tokens</h1><table class="table"><thead><tr><th scope="col">Tokens: </th></tr></thead><tbody>'
+        inicio = '<!doctype html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="Css tokens table.css" rel="stylesheet" ><title>TOKENS</title></head><body><table><thead><tr>'
 
         #final html
 
-        final = '</tbody></body></html>'
+        final = '</table></body></html>'
         #contenido de html
 
-        contenido = '<tr>' + '<td>' + 'TIPO' + '</td>' + '<td>' + 'TOKEN' + '</td>' + '<td>' + 'LINEA' + '</td>' + '<td>' + 'COLUMNA' + '</td>' +'</tr>'
+        contenido = '<tr>' + '<th>' + 'TIPO' + '</th>' + '<th>' + 'TOKEN' + '</th>' + '<th>' + 'LINEA' + '</th>' + '<th>' + 'COLUMNA' + '</th>' +'</tr>'+'</thead>'
 
         for i in self.lista: #agregar a la tabla los respectivos tokens 
 
@@ -43,4 +43,16 @@ class Token:
 
         op.write(texto)
 
+        op.close()
+
+        self.Css_reporte()
+
+
+    def Css_reporte(self):
+
+        cuerpo = 'body{background-color: #632432;font-family: Arial;}#main-container{margin: 100px auto;width: 600px;}table{background-color: white;text-align: left;border-collapse: collapse;width: 100%;}th, td{padding: 20px;}thead{background-color: #246355;border-bottom: solid 5px #0F362D;color: white;}tr:nth-child(odd){background-color: #ddd;}tr:hover td{background-color: #369681;color: white;}'
+
+        op = open('Css tokens table.css', 'w')
+
+        op.write(cuerpo)
         op.close()
