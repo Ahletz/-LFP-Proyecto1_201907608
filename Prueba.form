@@ -7,7 +7,10 @@
         <Numero> 84 </Numero>
         <Numero> 33.7 </Numero> 
     </Operacion> 
-    <Operacion= MULTIPLICACION>
+    <Operacion= INVERSO> 
+        <Numero> 84 </Numero> 
+    </Operacion> 
+    <Operacion= MOD>
         <Numero> 5 </Numero> 
         <Numero> 5 </Numero> 
     </Operacion>

@@ -15,7 +15,7 @@ class Html_r:
 
         estilos = estilos
 
-        #colores
+        #cAMBIO DE COLORES 
 
         for i in estilos:
 
@@ -62,43 +62,74 @@ class Html_r:
 
         cuerpo +='RESPUESTA'+'</title></head><body>'+'<h1>'+'<FONT SIZE='+str(estilos[0][1])+' COLOR='+str(estilos[0][2])+'">'+str(Posicion[0])+'</FONT>'+'</h1>'
 
-        cuerpo +='<p><FONT SIZE='+str(estilos[1][1])+' COLOR='+str(estilos[1][1])+'">'+str(texto[0])+'</FONT></p>'
+        
+        titulo ='<p><FONT SIZE='+str(estilos[1][1])+' COLOR='+str(estilos[1][1])+'">'+str(texto[0])+'</FONT></p>'
 
         tipo = ''
 
+        
+
         for i in contenido:
 
-            operaciones = 0
+            contador = 0
 
             for j in i:
 
                 if j.isalpha():
 
-                    operaciones+=1
+                    contador += 1 #saber cuantas operaciones existen dentro del documento
+            
+            if contador == 1:
 
-            if operaciones ==1:
+                tip = i[0]
 
-                tipo +='<FONT SIZE='+str(estilos[2][2])+'COLOR="'+str(estilos[2][1])+'">'+str(i[0])+'</FONT>'
-                tipo += '<p>'
+                tipo +='<p>'+ tip + '</p>' + '<p>'
+
+                for j in range(1, len(i)):
+
+                    numero = str(i[j])
+
+                    tipo += numero + ' -> '
+
+                tipo = tipo[:-3]
+                tipo += '=' 
+
+                resultado = self.operaciones_simples(i)
+
+                tipo += str(resultado) + '</p>' 
+
+            elif contador >= 2:
+
+                tip = i[0]
+
+                tipo +='<p>'+ tip + '</p>' + '<p>'
+
+                lugar = 0
 
                 for j in i:
 
-                    if j.isalnum():
+                    lugar +=1
 
-                        tipo += str(j) + ' '
-                    
-                    tipo += '='
+                    if j.isalpha():
 
-                tipo += str(self.operaciones_simples(i)) + '</p>'
+                        break
 
-                    
+                for k in range(1, lugar-1):
+                    pass
 
-            elif operaciones == 2:
 
-                pass
+
+                
+
+            
+
+
+
 
         
-        documento = cabecera + cuerpo + tipo + pie
+
+        
+        documento = cabecera + cuerpo + titulo + tipo + pie
 
         doc = open('RESPUESTA.html','w')
         doc.write(documento)
@@ -109,531 +140,70 @@ class Html_r:
 
     def operaciones_simples(self, operacion):
 
-        operacion = operacion
         respuesta = 0
 
         if operacion[0] == 'SUMA':
-            
 
-            for i in operacion:
+            for i in range(1, len(operacion)):
 
-                if i.isdigit():
+                respuesta += float(operacion[i])
 
-                    respuesta +=float(i)
-            
-            return respuesta
-            
         elif operacion[0] == 'RESTA':
 
-            for i in operacion:
+            respuesta = float(operacion[1])
 
-                if i.isdigit():
+            for i in range(2, len(operacion)):
 
-                    respuesta -=float(i)
-            
-            return respuesta
-
+                respuesta = respuesta - float(operacion[i])
+        
         elif operacion[0] == 'MULTIPLICACION':
-            
-            for i in operacion:
 
-                if i.isdigit():
+            respuesta = float(operacion[1])
 
-                    respuesta *=float(i)
-            
-            return respuesta
+            for i in range(1, len(operacion)):
+
+                respuesta = respuesta * float(operacion[i])
 
         elif operacion[0] == 'DIVISION':
-            
-            for i in operacion:
 
-                if i.isdigit():
+            respuesta = float(operacion[1])
 
-                    respuesta /=float(i)
-            
-            return respuesta
+            for i in range(1, len(operacion)):
+
+                respuesta = respuesta / float(operacion[i])
 
         elif operacion[0] == 'POTENCIA':
 
-            respuesta = int(operacion[1])**int(operacion[2])
+            respuesta = float(operacion[1])**float(operacion[1])
 
-            return respuesta
-            
         elif operacion[0] == 'RAIZ':
-
-            respuesta = math.sqrt(int(operacion[1]))
-
-            return respuesta
             
+            respuesta = math.sqrt(float(operacion[1]))
+
         elif operacion[0] == 'INVERSO':
             
-            respuesta = 1/int(operacion[1])
-
-            return respuesta
-
+            respuesta = 1/float(operacion[1])
 
         elif operacion[0] == 'SENO':
-
-            respuesta = math.sin(int(operacion[1]))
-
-            return respuesta
-
+            
+            respuesta = math.sin(float(operacion[1]))
+        
         elif operacion[0] == 'COSENO':
             
-            respuesta = math.cos(int(operacion[1]))
+            respuesta = math.cos(float(operacion[1]))
 
-            return respuesta
-
+        
         elif operacion[0] == 'TANGENTE':
             
-            respuesta = math.tan(int(operacion[1]))
-
-            return respuesta
+            respuesta = math.tan(float(operacion[1]))
 
         elif operacion[0] == 'MOD':
             
-            respuesta = int(operacion[1])%int(operacion[2])
+            respuesta = float(operacion[1])%float(operacion[2])
 
-            return respuesta 
+        return respuesta
 
-    def Operaciones_dobles(self, operaciones):
 
-        operacion = operaciones
-
-        if operacion[0] == 'SUMA':
-
-            if operacion[2] == 'RESTA':
-
-                respuesta = int(operacion[3]) - int(operacion[4])
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'MULTIPLICACION':
-
-                respuesta = int(operacion[3]) * int(operacion[4])
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'DIVISION':
-
-                respuesta = int(operacion[3]) / int(operacion[4])
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'POTENCIA':
-
-                respuesta = int(operacion[3])**int(operacion[4])
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta + int(operacion[1])
-
-        elif operacion[0] == 'RESTA':
-
-            if operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'MULTIPLICACION':
-
-                respuesta = int(operacion[3]) * int(operacion[4])
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'DIVISION':
-
-                respuesta = int(operacion[3]) / int(operacion[4])
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'POTENCIA':
-
-                respuesta = int(operacion[3])**int(operacion[4])
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta - int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta - int(operacion[1])
-
-        elif operacion[0] == 'MULTIPLICACION':
-
-            if operacion[2] == 'RESTA':
-
-                respuesta = int(operacion[3]) - int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'DIVISION':
-
-                respuesta = int(operacion[3]) / int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'POTENCIA':
-
-                respuesta = int(operacion[3])**int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-        elif operacion[0] == 'DIVISION':
-
-            if operacion[2] == 'RESTA':
-
-                respuesta = int(operacion[3]) - int(operacion[4])
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'MULTIPLICACION':
-
-                respuesta = int(operacion[3]) * int(operacion[4])
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'POTENCIA':
-
-                respuesta = int(operacion[3])**int(operacion[4])
-
-                respuesta = respuesta + int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta / int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta / int(operacion[1])
-
-        elif operacion[0] == 'MULTIPLICACION':
-
-            if operacion[2] == 'RESTA':
-
-                respuesta = int(operacion[3]) - int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'DIVISION':
-
-                respuesta = int(operacion[3]) / int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'POTENCIA':
-
-                respuesta = int(operacion[3])**int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta * int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta * int(operacion[1])
-
-        elif operacion[0] == 'POTENCIA':
-
-            if operacion[2] == 'RESTA':
-
-                respuesta = int(operacion[3]) - int(operacion[4])
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'MULTIPLICACION':
-
-                respuesta = int(operacion[3]) * int(operacion[4])
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta ** int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta ** int(operacion[1])
-
-
-        elif operacion[0] == 'MOD':
-
-            if operacion[2] == 'RESTA':
-
-                respuesta = int(operacion[3]) - int(operacion[4])
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'MULTIPLICACION':
-
-                respuesta = int(operacion[3]) * int(operacion[4])
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'DIVISION':
-
-                respuesta = int(operacion[3]) / int(operacion[4])
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'SUMA':
-
-                respuesta = int(operacion[3]) + int(operacion[4])
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'RAIZ':
-
-                respuesta = math.sqrt(int(operacion[3])) 
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'INVERSO':
-
-                respuesta = 1/ int(operacion[3])
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'SENO':
-
-                respuesta = math.sin(int(operacion[3])) 
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'COSENO':
-
-                respuesta = math.cos(int(operacion[3]))
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'TANGENTE':
-
-                respuesta = math.tan(int(operacion[3]))
-
-                respuesta = respuesta % int(operacion[1])
-
-            elif operacion[2] == 'MOD':
-
-                respuesta = int(operacion[3]) % int(operacion[4])
-
-                respuesta = respuesta % int(operacion[1])
 
             
 
